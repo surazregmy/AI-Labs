@@ -1,5 +1,5 @@
-def fileContents = new File('/home/bikash/Desktop/shakespeare.txt').getText();
-def lists = fileContents.tokenize(' !.&,;?\n:');
+def fileContents = new File('/home/bikash/Desktop/shakespeare.txt').getText();//read the file
+def lists = fileContents.tokenize(' !.&,;?\n:');//word seperated by these character are stored
 def size = lists.size()
 def count = 0;
 def words = [];
@@ -20,7 +20,7 @@ for(int i=0; i<size-1; i++){
         }else{
         map.put(lists[i],map[lists[i]]+1)
       }
-    //counts the frequency of two words comming together and store in a map          
+    //counts the frequency of two words comming together and store in a maps          
     temp = lists[i]+":"+lists[i+1]
     if(maps[temp]==null){
         maps.put(temp,1)  
@@ -81,8 +81,8 @@ println "p(will, look, upon) indepently="+probabiliti('will',map,count)*probabil
 println "p(i, am, no, baby) indepently="+probabiliti('i',map,count)*probabiliti('am',map,count)*probabiliti('no',map,count)*probabiliti('baby',map,count)
 println "p(wherefore, art, thou, Romeo) indepently="+probabiliti('wherefore',map,count)*probabiliti('art',map,count)*probabiliti('thou',map,count)*probabiliti('romeo',map,count)
 
-def sort = map.sort { b, a -> a.value <=> b.value }
-def sorts = maps.sort { b, a -> a.value <=> b.value }
+def sort = map.sort { b, a -> a.value <=> b.value }//sort map in descending order
+def sorts = maps.sort { b, a -> a.value <=> b.value }//sort maps in descending order
 
 //Ranks words by its count
 println "Rank  Word    Frequency"
@@ -90,7 +90,7 @@ i=0
 sort.each{
     if(!neglet.contains(it.key)) {
         i++
-        //println  i+"     "+it.key+"      "+it.value
+        println  i+"     "+it.key+"      "+it.value
     }
 }
 
@@ -98,7 +98,7 @@ sort.each{
 i=0
 println "Rank  Wordpair    Frequency"
 sorts.each {
-    //println i + "     " + it.key + "      " + it.value
+    println i + "     " + it.key + "      " + it.value
     i++
 }
 
