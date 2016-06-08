@@ -20,7 +20,7 @@ for(int i=0; i<size-1; i++){
         }else{
         map.put(lists[i],map[lists[i]]+1)
       }
-    //counts the frequency of two words comming together and store in a map          
+    //counts the frequency of two words comming together and store in a maps          
     temp = lists[i]+":"+lists[i+1]
     if(maps[temp]==null){
         maps.put(temp,1)  
