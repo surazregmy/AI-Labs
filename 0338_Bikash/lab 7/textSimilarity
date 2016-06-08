@@ -8,9 +8,9 @@ def idf = [:] //inverse document frequency
 //assert co.one.two.equals('something')
 import java.lang.*;
 
-def doc1 = ['this','is','not','document','one','one']//data of first document
-def doc2 = ['that','is','a','document','doc3']//data of second document
-def query = ['this', 'is', 'a', 'test']//data of query document
+def doc1 = ['i','do','not','like','them','sam','i','am']//datas of document 1
+def doc2 = ['i','do','not','like','green','eggs','and','ham']//datas of docuent 2 
+def query  =['sam','i','am']//datas of query
 
 def j = i = 0
 def union  = doc1.plus(doc2).plus(query).unique { a, b -> a <=> b }//all terms that appear in doc1 doc2 and query
@@ -69,7 +69,7 @@ union.each{
 }
 
 //function that calculates the cosine similarity of w2 text with w1
-def cosine(w1,w2,union,termCMatrixD,termCMatrixQ){
+def cosine(w1,w2,union){
 
     def temp1 = 0
     def temp2 = 0.0
@@ -79,22 +79,21 @@ def cosine(w1,w2,union,termCMatrixD,termCMatrixQ){
      temp1 = w1[it]*w2[it]+temp1
     }
     
-    termCMatrixD.each{
+    w1.each{
       temp2 = temp2 + (it.value * it.value)
     }
     
-    termCMatrixD.each{
+    w2.each{
       temp3 = temp3 + (it.value * it.value)
     }
     return temp1/(Math.sqrt(temp2)*Math.sqrt(temp3))
-
-    
 }
 
-//w[x] means weight of x document termCMatrix[x] is count matrix of document x 
-def cosine1 = cosine(w['doc1'],w['query'],union,termCMatrix['doc1'],termCMatrix['query'])
-def cosine2 = cosine(w['doc2'],w['query'],union,termCMatrix['doc2'],termCMatrix['query'])
 
+def cosine1 = cosine(w['doc1'],w['query'],union)
+def cosine2 = cosine(w['doc2'],w['query'],union)
+
+println "Cosine of doc 1 is "+cosine1+" Cosine of doc 2 is "+cosine2;
 if(cosine1>cosine2){
     println "Query is more similar with Document 1"
 }else{
