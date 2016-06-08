@@ -1,10 +1,10 @@
 import java.lang.*;
 
-ConfigObject termFMatrix = new ConfigObject()  
-ConfigObject termCMatrix = new ConfigObject()  
+ConfigObject termFMatrix = new ConfigObject()
+ConfigObject termCMatrix = new ConfigObject()
 ConfigObject tf = new ConfigObject() //term frequency
 ConfigObject w = new ConfigObject() //weight
-  
+
 def df = [:] //document frequency
 def idf = [:] //inverse document frequency
 
@@ -20,24 +20,24 @@ def N = 3 //total count of doc
 //creating binary matrix
 union.each{
     if(doc1.contains(it))
-       termFMatrix['doc1'][it] = 1
-    else   
-       termFMatrix['doc1'][it] = 0
+        termFMatrix['doc1'][it] = 1
+    else
+        termFMatrix['doc1'][it] = 0
     if(doc2.contains(it))
-       termFMatrix['doc2'][it] = 1
-    else   
-       termFMatrix['doc2'][it] = 0
+        termFMatrix['doc2'][it] = 1
+    else
+        termFMatrix['doc2'][it] = 0
     if(query.contains(it))
-       termFMatrix['query'][it] = 1
-    else   
-       termFMatrix['query'][it] = 0
+        termFMatrix['query'][it] = 1
+    else
+        termFMatrix['query'][it] = 0
 }
 
 //creates term count matrix
 union.each{
     termCMatrix['doc1'][it] = doc1.count(it)
     termCMatrix['doc2'][it] = doc2.count(it)
-    termCMatrix['query'][it] = query.count(it)    
+    termCMatrix['query'][it] = query.count(it)
 }
 
 
@@ -47,9 +47,9 @@ maxQuery = termCMatrix['query'].max{it.value}.value //maximum num of count in qu
 
 //creates term frequency matrix
 union.each{
-      tf['doc1'][it] =  termCMatrix['doc1'][it]/maxDoc1
-      tf['doc2'][it] =  termCMatrix['doc2'][it]/maxDoc2  
-      tf['query'][it] =  termCMatrix['query'][it]/maxQuery
+    tf['doc1'][it] =  termCMatrix['doc1'][it]/maxDoc1
+    tf['doc2'][it] =  termCMatrix['doc2'][it]/maxDoc2
+    tf['query'][it] =  termCMatrix['query'][it]/maxQuery
 }
 
 //no of document where there is presence of the given term
@@ -64,9 +64,9 @@ union.each{
 
 //tf-idf weighting
 union.each{
-      w['doc1'][it] = tf['doc1'][it] * idf[it]
-      w['doc2'][it] = tf['doc2'][it] * idf[it]
-      w['query'][it] = tf['query'][it] * idf[it]
+    w['doc1'][it] = tf['doc1'][it] * idf[it]
+    w['doc2'][it] = tf['doc2'][it] * idf[it]
+    w['query'][it] = tf['query'][it] * idf[it]
 }
 
 //function that calculates the cosine similarity of w2 text with w1
@@ -75,17 +75,17 @@ def cosine(w1,w2,union){
     def temp1 = 0
     def temp2 = 0.0
     def temp3 = 0.0
-    
+
     union.each{
-     temp1 = w1[it]*w2[it]+temp1
+        temp1 = w1[it]*w2[it]+temp1
     }
-    
+
     w1.each{
-      temp2 = temp2 + (it.value * it.value)
+        temp2 = temp2 + (it.value * it.value)
     }
-    
+
     w2.each{
-      temp3 = temp3 + (it.value * it.value)
+        temp3 = temp3 + (it.value * it.value)
     }
     return temp1/(Math.sqrt(temp2)*Math.sqrt(temp3))
 }
