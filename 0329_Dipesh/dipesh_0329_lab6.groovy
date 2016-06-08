@@ -1,4 +1,4 @@
-def fileContents = new File('/home/bikash/Desktop/shakespeare.txt').getText();//read the file
+def fileContents = new File('/home/xenon/Desktop/shakespeare.txt').getText();//read the file
 def lists = fileContents.tokenize(' !.&,;?\n:');//word seperated by these character are stored
 def size = lists.size()
 def count = 0;
@@ -9,29 +9,29 @@ def maps = [:];
 def temp = "";
 def neglet =['the','and','i','a','or','in','that','to','you','of','my','for','is','will','as','me'];
 
- 
+
 for(int i=0; i<size-1; i++){
     //counts the frequency of each word and store in map
     lists[i] = lists[i].toLowerCase()
 
-      if(!words.contains(lists[i])){
-          words.push(lists[i])
-          map.put(lists[i],1)
-        }else{
+    if(!words.contains(lists[i])){
+        words.push(lists[i])
+        map.put(lists[i],1)
+    }else{
         map.put(lists[i],map[lists[i]]+1)
-      }
-    //counts the frequency of two words comming together and store in a maps          
+    }
+    //counts the frequency of two words comming together and store in a maps
     temp = lists[i]+":"+lists[i+1]
     if(maps[temp]==null){
-        maps.put(temp,1)  
+        maps.put(temp,1)
     }else{
         maps.put(temp,maps[temp]+1)
-       
+
     }
-   
+
 }
 count = lists.size()
-//calculate the probability of given word 
+//calculate the probability of given word
 def probabiliti(word,map,count){
     word = "$word"
     return map[word]/count
@@ -63,12 +63,12 @@ def prob(first,second,maps,map,count){
 
 //probability of third word after first and second
 def prob(first,second,third,maps,map,count){
-        probabiliti(first,map,count)*probability(first,second,maps,map,count)*probability(second,third,maps,map,count)
+    probabiliti(first,map,count)*probability(first,second,maps,map,count)*probability(second,third,maps,map,count)
 }
 
 //probability of fourth word after first second and third
 def prob(first,second,third,fourth,maps,map,count){
-        probabiliti(first,map,count)*probability(first,second,maps,map,count)*probability(second,third,maps,map,count)*probability(third,fourth,maps,map,count)
+    probabiliti(first,map,count)*probability(first,second,maps,map,count)*probability(second,third,maps,map,count)*probability(third,fourth,maps,map,count)
 }
 
 println "p(have, sent)="+prob('have','sent',maps,map,count)
