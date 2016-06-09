@@ -34,6 +34,21 @@ class DocumentProcessing {
         println "Probability of P(i, am, no, baby) : " + processingWork.independentProbability("I AM NO BABY", wordFreq)
         println "Probability of P(wherefore, art, thou, romeo) : " + processingWork.independentProbability("WHEREFORE ART THOU ROMEO", wordFreq)
 
+        def pMap1= processingWork.getProbableWordsAfterSeq("I","AM","NO",words)
+        def pMap2 = processingWork.getProbableWordsAfterSeq("WHEREFORE","ART","THOU",words)
+        pMap1 = pMap1.sort {-it.value}
+        pMap2 = pMap2.sort {-it.value}
+
+        println "=============The Most Probable word after I AM NO are============"
+        pMap1.each{
+            println it.key
+        }
+
+        println "=============The Most Probable word after WHEREFORE ART THOU are============ "
+        pMap2.each{
+            print it.key+" "
+        }
+
     }
 }
 
@@ -151,6 +166,22 @@ class ProcessingWork{
         }
         return probability
     }
+
+    def getProbableWordsAfterSeq(word1, word2, word3,lists) {
+        def pMap = [:];
+        def count = lists.size()
+        for(int i=0; i<count-3; i++){
+            if(lists[i]==word1 && lists[i+1]==word2 && lists[i+2]==word3){
+                if(pMap[lists[i+3]]==null)
+                    pMap.put(lists[i+3],1)
+                else
+                    pMap.put(lists[i+3],pMap[lists[i+3]]+1)
+
+            }
+        }
+        return pMap
+    }
+
 
 
 }
